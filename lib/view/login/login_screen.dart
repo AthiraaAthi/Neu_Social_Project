@@ -1,3 +1,5 @@
+import 'package:app_neu_social/utils/color_constant/color_constant.dart';
+import 'package:app_neu_social/view/Navigation/nav_screen.dart';
 import 'package:app_neu_social/view/register/register_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -61,23 +63,23 @@ class LoginScreen extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              // Navigator.pushReplacement(
-              //     context,
-              //     MaterialPageRoute(
-              //       builder: (context) => HomeScreen(),
-              //     ));
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NavigationScreen(),
+                  ));
             },
             child: Container(
               height: 50,
               width: 300,
               decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 108, 162, 255),
+                  color: ColorConstant.DefaultBlue,
                   borderRadius: BorderRadius.circular(10)),
               child: Center(
                 child: Text(
                   "Login",
                   style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+                      color: ColorConstant.white, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
