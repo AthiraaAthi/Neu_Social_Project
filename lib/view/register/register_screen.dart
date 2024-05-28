@@ -1,3 +1,4 @@
+import 'package:app_neu_social/view/login/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -34,7 +35,7 @@ class RegisterScreen extends StatelessWidget {
                 decoration: InputDecoration(
                   fillColor: Colors.white,
                   filled: true,
-                  hintText: "Name",
+                  hintText: "Email",
                   hintStyle: TextStyle(fontSize: 15, color: Colors.grey),
                   border: UnderlineInputBorder(borderSide: BorderSide.none),
                 ),
@@ -43,30 +44,64 @@ class RegisterScreen extends StatelessWidget {
             SizedBox(
               height: 15,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 5,
+            Container(
+              height: 50,
+              width: 300,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey)),
+              child: TextField(
+                decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
+                  hintText: "Phone",
+                  hintStyle: TextStyle(fontSize: 15, color: Colors.grey),
+                  border: UnderlineInputBorder(borderSide: BorderSide.none),
                 ),
-                Container(
-                  height: 50,
-                  width: 248,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.white,
-                      border: Border.all(color: Colors.grey)),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      fillColor: Colors.white,
-                      filled: true,
-                      hintText: "Mobile Number",
-                      hintStyle: TextStyle(fontSize: 15, color: Colors.grey),
-                      border: UnderlineInputBorder(borderSide: BorderSide.none),
-                    ),
-                  ),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Container(
+              height: 50,
+              width: 300,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey)),
+              child: TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
+                  hintText: "Password",
+                  hintStyle: TextStyle(fontSize: 15, color: Colors.grey),
+                  border: UnderlineInputBorder(borderSide: BorderSide.none),
                 ),
-              ],
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Container(
+              height: 50,
+              width: 300,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey)),
+              child: TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  filled: true,
+                  hintText: "Confirm Password",
+                  hintStyle: TextStyle(fontSize: 15, color: Colors.grey),
+                  border: UnderlineInputBorder(borderSide: BorderSide.none),
+                ),
+              ),
             ),
             SizedBox(
               height: 20,
@@ -106,11 +141,11 @@ class RegisterScreen extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (context) => LoginScreen(),
-                    //     ));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginScreen(),
+                        ));
                   },
                   child: Text(
                     "Login",

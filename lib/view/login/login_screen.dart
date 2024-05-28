@@ -30,7 +30,7 @@ class LoginScreen extends StatelessWidget {
               decoration: InputDecoration(
                 fillColor: Colors.white,
                 filled: true,
-                hintText: "Mobile Number",
+                hintText: "Email",
                 hintStyle: TextStyle(fontSize: 15, color: Colors.grey),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -39,7 +39,25 @@ class LoginScreen extends StatelessWidget {
             ),
           ),
           SizedBox(
+            height: 20,
+          ),
+          Container(
             height: 50,
+            width: 300,
+            child: TextField(
+              decoration: InputDecoration(
+                fillColor: Colors.white,
+                filled: true,
+                hintText: "Password",
+                hintStyle: TextStyle(fontSize: 15, color: Colors.grey),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 40,
           ),
           InkWell(
             onTap: () {
