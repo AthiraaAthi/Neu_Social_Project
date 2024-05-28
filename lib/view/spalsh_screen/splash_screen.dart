@@ -1,7 +1,10 @@
 import 'dart:async';
 
+import 'package:app_neu_social/view/Navigation/nav_screen.dart';
 import 'package:app_neu_social/view/login/login_screen.dart';
+import 'package:app_neu_social/view/register/register_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,13 +16,27 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Timer(Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => LoginScreen(),
-          ));
-    });
+    Future.delayed(
+      Duration(seconds: 3),
+      () async {
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        final isLogged = await prefs.getBool("isLogged");
+        print(isLogged);
+        if (isLogged == true) {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NavigationScreen(),
+              ));
+        } else {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => LoginScreen(),
+              ));
+        }
+      },
+    );
     super.initState();
   }
 

@@ -1,5 +1,7 @@
+import 'package:app_neu_social/controller/event_provider.dart';
 import 'package:app_neu_social/view/spalsh_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(NeuSocial());
@@ -10,9 +12,15 @@ class NeuSocial extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+            create: (context) => EventProvider()..loadEvents())
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: SplashScreen(),
+      ),
     );
   }
 }

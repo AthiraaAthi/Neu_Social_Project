@@ -2,10 +2,18 @@ import 'package:app_neu_social/utils/color_constant/color_constant.dart';
 import 'package:app_neu_social/view/Navigation/nav_screen.dart';
 import 'package:app_neu_social/view/register/register_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final emailController = TextEditingController();
+  final passController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +37,7 @@ class LoginScreen extends StatelessWidget {
             height: 50,
             width: 300,
             child: TextField(
+              controller: emailController,
               decoration: InputDecoration(
                 fillColor: Colors.white,
                 filled: true,
@@ -47,6 +56,8 @@ class LoginScreen extends StatelessWidget {
             height: 50,
             width: 300,
             child: TextField(
+              obscureText: true,
+              controller: passController,
               decoration: InputDecoration(
                 fillColor: Colors.white,
                 filled: true,
@@ -62,12 +73,27 @@ class LoginScreen extends StatelessWidget {
             height: 40,
           ),
           InkWell(
-            onTap: () {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NavigationScreen(),
-                  ));
+            onTap: () async {
+              final SharedPreferences prefs =
+                  await SharedPreferences.getInstance();
+              final String RegEmail = prefs.getString("email").toString();
+              final String RegPass = prefs.getString("pass").toString();
+              if (emailController.text.trim() == RegEmail &&
+                  passController.text.trim() == RegPass) {
+                await prefs.setBool("IsLogged", true);
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NavigationScreen(),
+                    ));
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text("Enter a valid email and password"),
+                  ),
+                );
+              }
             },
             child: Container(
               height: 50,
