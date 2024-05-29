@@ -65,9 +65,10 @@ class _SplashScreenState extends State<SplashScreen> {
               "Neu-Social",
               style: GoogleFonts.dancingScript(
                 textStyle: TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 32,
-                    color: ColorConstant.DefaultBlue),
+                  fontWeight: FontWeight.w900,
+                  color: ColorConstant.DefaultBlue,
+                  fontSize: 32,
+                ),
               ),
             )
           ],

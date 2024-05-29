@@ -10,7 +10,11 @@ import 'package:provider/provider.dart';
 class EventDetailsScreen extends StatefulWidget {
   const EventDetailsScreen({
     super.key,
+    required this.communityName,
+    required this.description,
   });
+  final String communityName;
+  final String description;
 
   @override
   State<EventDetailsScreen> createState() => _EventDetailsScreenState();

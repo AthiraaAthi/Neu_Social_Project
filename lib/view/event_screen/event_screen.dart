@@ -5,6 +5,7 @@ import 'package:app_neu_social/view/event_screen/event_details_screen/event_deta
 import 'package:app_neu_social/view/event_screen/event_widget.dart';
 import 'package:app_neu_social/view/login/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class EventScreen extends StatelessWidget {
@@ -27,8 +28,13 @@ class EventScreen extends StatelessWidget {
           ),
           title: Text(
             "Neu-Social",
-            style: TextStyle(
-                fontWeight: FontWeight.w800, color: ColorConstant.DefaultBlue),
+            style: GoogleFonts.dancingScript(
+              textStyle: TextStyle(
+                fontWeight: FontWeight.w900,
+                color: ColorConstant.DefaultBlue,
+                fontSize: 32,
+              ),
+            ),
           ),
           actions: [
             IconButton(
@@ -72,7 +78,10 @@ class EventScreen extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EventDetailsScreen(),
+                          builder: (context) => EventDetailsScreen(
+                            communityName: event.communityName,
+                            description: event.description,
+                          ),
                         ));
                   },
                   communityName: event.communityName,
