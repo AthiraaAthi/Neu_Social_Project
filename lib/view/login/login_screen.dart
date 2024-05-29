@@ -41,6 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
       } else {
         // Show an error message if login fails
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          duration: Duration(seconds: 2),
           backgroundColor: Colors.red,
           content: Text('Invalid email or password'),
         ));
