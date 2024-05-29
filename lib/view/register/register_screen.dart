@@ -2,6 +2,7 @@ import 'package:app_neu_social/providers/user_provider.dart';
 import 'package:app_neu_social/utils/color_constant/color_constant.dart';
 import 'package:app_neu_social/view/login/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:app_neu_social/model/user.dart';
@@ -15,6 +16,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passController = TextEditingController();
+  final phoneController = TextEditingController();
   final confirmPassController = TextEditingController();
 
   void _register(BuildContext context) async {
@@ -61,7 +63,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     height: 25,
                   ),
                   Container(
-                    height: 50,
+                    height: 70,
                     width: 300,
                     child: TextFormField(
                       controller: emailController,
@@ -83,9 +85,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       },
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 15),
                   Container(
-                    height: 50,
+                    height: 70,
+                    width: 300,
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      controller: phoneController,
+                      decoration: InputDecoration(
+                          labelText: 'Phone',
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5))),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "it can't be empty";
+                        } else if (value.length < 10) {
+                          return "characters must be atleast 10";
+                        } else if (!(value.startsWith("6") ||
+                            value.startsWith("7") ||
+                            value.startsWith("8") ||
+                            value.startsWith("9"))) {
+                          return "number should start with 6,7,8,9";
+                        } else {
+                          return null;
+                        }
+                      },
+                      onSaved: (value) {
+                        phoneController.text = value!;
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  Container(
+                    height: 70,
                     width: 300,
                     child: TextFormField(
                       controller: passController,
@@ -108,9 +140,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       },
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 15),
                   Container(
-                    height: 50,
+                    height: 60,
                     width: 300,
                     child: TextFormField(
                       controller: confirmPassController,
@@ -156,7 +188,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Already have an account?"),
+                      Text(
+                        "Already have an account?",
+                        style: GoogleFonts.josefinSans(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
                       SizedBox(width: 5),
                       InkWell(
                         onTap: () {
@@ -168,7 +207,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         },
                         child: Text(
                           "Login",
-                          style: TextStyle(color: Colors.indigo),
+                          style: GoogleFonts.josefinSans(
+                            textStyle: TextStyle(
+                              color: Colors.indigo,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
                         ),
                       ),
                     ],

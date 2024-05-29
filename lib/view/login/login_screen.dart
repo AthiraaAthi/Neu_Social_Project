@@ -5,6 +5,7 @@ import 'package:app_neu_social/view/Navigation/nav_screen.dart';
 import 'package:app_neu_social/view/event_screen/event_details_screen/event_details_screen.dart';
 import 'package:app_neu_social/view/register/register_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -149,7 +150,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Don't you have account ?"),
+                      Text(
+                        "Don't you have account ?",
+                        style: GoogleFonts.josefinSans(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
                       SizedBox(
                         width: 5,
                       ),
@@ -163,7 +171,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         child: Text(
                           "Register",
-                          style: TextStyle(color: Colors.indigo),
+                          style: GoogleFonts.josefinSans(
+                            textStyle: TextStyle(
+                              color: Colors.indigo,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
                         ),
                       )
                     ],

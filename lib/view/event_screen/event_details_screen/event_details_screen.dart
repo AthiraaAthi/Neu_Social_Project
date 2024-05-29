@@ -77,7 +77,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
           style: GoogleFonts.dancingScript(
             textStyle: TextStyle(
                 fontWeight: FontWeight.w900,
-                color: ColorConstant.DefaultBlue,
+                color: ColorConstant.black,
                 fontSize: 22),
           ),
         ),
@@ -155,7 +155,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                               message.message,
                               style: GoogleFonts.dosis(
                                 textStyle: TextStyle(
-                                  fontWeight: FontWeight.w800,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ),
