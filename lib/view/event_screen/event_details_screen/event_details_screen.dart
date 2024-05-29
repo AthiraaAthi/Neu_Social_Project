@@ -4,6 +4,7 @@ import 'package:app_neu_social/providers/user_provider.dart';
 import 'package:app_neu_social/utils/color_constant/color_constant.dart';
 import 'package:app_neu_social/view/login/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class EventDetailsScreen extends StatefulWidget {
@@ -73,8 +74,12 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
       appBar: AppBar(
         title: Text(
           "Chat screen",
-          style: TextStyle(
-              fontWeight: FontWeight.w800, color: ColorConstant.DefaultBlue),
+          style: GoogleFonts.dancingScript(
+            textStyle: TextStyle(
+                fontWeight: FontWeight.w900,
+                color: ColorConstant.DefaultBlue,
+                fontSize: 22),
+          ),
         ),
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -140,9 +145,20 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                           children: [
                             Text(
                               message.username,
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: GoogleFonts.josefinSans(
+                                textStyle: TextStyle(
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
                             ),
-                            Text(message.message),
+                            Text(
+                              message.message,
+                              style: GoogleFonts.dosis(
+                                textStyle: TextStyle(
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),

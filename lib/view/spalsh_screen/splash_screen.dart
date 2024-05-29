@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:app_neu_social/utils/color_constant/color_constant.dart';
 import 'package:app_neu_social/view/Navigation/nav_screen.dart';
 import 'package:app_neu_social/view/login/login_screen.dart';
 import 'package:app_neu_social/view/register/register_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -61,7 +63,12 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             Text(
               "Neu-Social",
-              style: TextStyle(fontSize: 22),
+              style: GoogleFonts.dancingScript(
+                textStyle: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 32,
+                    color: ColorConstant.DefaultBlue),
+              ),
             )
           ],
         ),
