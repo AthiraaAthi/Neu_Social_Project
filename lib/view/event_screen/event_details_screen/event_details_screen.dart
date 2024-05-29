@@ -3,7 +3,6 @@ import 'package:app_neu_social/model/message.dart';
 import 'package:app_neu_social/providers/user_provider.dart';
 import 'package:app_neu_social/utils/color_constant/color_constant.dart';
 import 'package:app_neu_social/view/login/login_screen.dart';
-import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -126,10 +125,14 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                       alignment:
                           isMe ? Alignment.centerRight : Alignment.centerLeft,
                       child: Container(
+                        decoration: BoxDecoration(
+                            color: isMe
+                                ? Color.fromARGB(255, 134, 250, 138)
+                                : Colors.grey[300],
+                            borderRadius: BorderRadius.circular(10)),
                         padding: EdgeInsets.all(10),
                         margin:
                             EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                        color: isMe ? Colors.blue : Colors.grey[300],
                         child: Column(
                           crossAxisAlignment: isMe
                               ? CrossAxisAlignment.end
@@ -154,16 +157,24 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
             child: Row(
               children: [
                 Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    decoration: InputDecoration(
-                      hintText: 'Enter message',
-                      border: OutlineInputBorder(),
+                  child: Container(
+                    height: 50,
+                    width: 300,
+                    child: TextField(
+                      controller: _controller,
+                      decoration: InputDecoration(
+                        hintText: 'Enter message',
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
                     ),
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.send),
+                  icon: Icon(
+                    Icons.send,
+                    color: ColorConstant.black,
+                  ),
                   onPressed: () => _sendMessage(context),
                 ),
               ],
