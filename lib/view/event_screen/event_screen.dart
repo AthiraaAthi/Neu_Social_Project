@@ -72,9 +72,7 @@ class EventScreen extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EventDetailsScreen(
-                              communityName: event.communityName,
-                              description: event.description),
+                          builder: (context) => EventDetailsScreen(),
                         ));
                   },
                   communityName: event.communityName,
