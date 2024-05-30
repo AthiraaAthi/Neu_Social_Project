@@ -24,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final storedUsername = prefs.getString('username');
     final storedPassword = prefs.getString('password');
 
+    // await prefs.setBool("isLogged", true);
     return storedUsername == username && storedPassword == password;
   }
 
@@ -34,7 +35,8 @@ class _LoginScreenState extends State<LoginScreen> {
         final user =
             User(username: emailController.text, password: passController.text);
         Provider.of<UserProvider>(context, listen: false).login(user);
-
+        // final prefs = await SharedPreferences.getInstance();
+        // await prefs.setBool("isLogged", true);
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => NavigationScreen()),
         );

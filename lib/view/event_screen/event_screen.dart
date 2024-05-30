@@ -32,7 +32,7 @@ class EventScreen extends StatelessWidget {
               textStyle: TextStyle(
                 fontWeight: FontWeight.w900,
                 color: ColorConstant.DefaultBlue,
-                fontSize: 32,
+                fontSize: 22,
               ),
             ),
           ),
