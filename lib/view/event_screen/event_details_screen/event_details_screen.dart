@@ -75,133 +75,164 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Chat screen",
-          style: GoogleFonts.dancingScript(
-            textStyle: TextStyle(
-                fontWeight: FontWeight.w900,
-                color: ColorConstant.black,
-                fontSize: 22),
+        appBar: AppBar(
+          title: Text(
+            "Chat screen",
+            style: GoogleFonts.dancingScript(
+              textStyle: TextStyle(
+                  fontWeight: FontWeight.w900,
+                  color: ColorConstant.black,
+                  fontSize: 22),
+            ),
           ),
-        ),
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            backgroundImage: AssetImage("assets/images/splash.jpeg"),
-            radius: 20,
-            backgroundColor: Colors.amber,
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CircleAvatar(
+              backgroundImage: AssetImage("assets/images/splash.jpeg"),
+              radius: 20,
+              backgroundColor: Colors.amber,
+            ),
           ),
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              Provider.of<UserProvider>(context, listen: false).logout();
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginScreen(),
-                  ));
-            },
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: FutureBuilder<List<Message>>(
-              future: _messages,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(child: Text('No messages'));
-                }
-
-                final messages = snapshot.data!;
-
-                return ListView.builder(
-                  reverse: true,
-                  itemCount: messages.length,
-                  itemBuilder: (context, index) {
-                    final message = messages[index];
-                    final isMe = message.username == user!.username;
-
-                    return Align(
-                      alignment:
-                          isMe ? Alignment.centerRight : Alignment.centerLeft,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: isMe
-                                ? Color.fromARGB(255, 134, 250, 138)
-                                : Colors.grey[300],
-                            borderRadius: BorderRadius.circular(10)),
-                        padding: EdgeInsets.all(10),
-                        margin:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                        child: Column(
-                          crossAxisAlignment: isMe
-                              ? CrossAxisAlignment.end
-                              : CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              message.username,
-                              style: GoogleFonts.josefinSans(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                            ),
-                            Text(
-                              message.message,
-                              style: GoogleFonts.dosis(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                );
+          actions: [
+            IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () {
+                Provider.of<UserProvider>(context, listen: false).logout();
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginScreen(),
+                    ));
               },
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    height: 50,
-                    width: 300,
-                    child: TextField(
-                      controller: _controller,
-                      decoration: InputDecoration(
-                        hintText: 'Enter message',
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                      ),
+          ],
+        ),
+        body: user != null
+            ? Column(
+                children: [
+                  Expanded(
+                    child: FutureBuilder<List<Message>>(
+                      future: _messages,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Center(
+                              child: Text('Error: ${snapshot.error}'));
+                        } else if (!snapshot.hasData ||
+                            snapshot.data!.isEmpty) {
+                          return Center(child: Text('No messages'));
+                        }
+
+                        final messages = snapshot.data!;
+
+                        return ListView.builder(
+                          reverse: true,
+                          itemCount: messages.length,
+                          itemBuilder: (context, index) {
+                            final message = messages[index];
+                            final isMe = message.username == user!.username;
+
+                            return Align(
+                              alignment: isMe
+                                  ? Alignment.centerRight
+                                  : Alignment.centerLeft,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: isMe
+                                        ? Color.fromARGB(255, 134, 250, 138)
+                                        : Colors.grey[300],
+                                    borderRadius: BorderRadius.circular(10)),
+                                padding: EdgeInsets.all(10),
+                                margin: EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 10),
+                                child: Column(
+                                  crossAxisAlignment: isMe
+                                      ? CrossAxisAlignment.end
+                                      : CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      message.username,
+                                      style: GoogleFonts.josefinSans(
+                                        textStyle: TextStyle(
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      message.message,
+                                      style: GoogleFonts.dosis(
+                                        textStyle: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
                     ),
                   ),
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.send,
-                    color: ColorConstant.black,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 50,
+                            width: 300,
+                            child: TextField(
+                              controller: _controller,
+                              decoration: InputDecoration(
+                                hintText: 'Enter message',
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                              ),
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.send,
+                            color: ColorConstant.black,
+                          ),
+                          onPressed: () => _sendMessage(context),
+                        ),
+                      ],
+                    ),
                   ),
-                  onPressed: () => _sendMessage(context),
+                ],
+              )
+            : Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LoginScreen(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 150,
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                                color: ColorConstant.DefaultBlue, width: 2)),
+                        child: Text('Login'),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+              ));
   }
 }

@@ -171,7 +171,8 @@ class _EventScreenState extends State<EventScreen> {
                                         decoration: BoxDecoration(
                                           color: colorProvider.isSelected
                                               ? Colors.blue
-                                              : Colors.green,
+                                              : Color.fromARGB(
+                                                  255, 46, 227, 49),
                                           borderRadius:
                                               BorderRadius.circular(8.0),
                                         ),
