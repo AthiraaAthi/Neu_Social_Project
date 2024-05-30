@@ -45,6 +45,29 @@ class _EventScreenState extends State<EventScreen> {
     }
   }
 
+  //TIME PICKER
+  TimeOfDay? selectedTime;
+
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: selectedTime ?? TimeOfDay.now(),
+    );
+
+    if (pickedTime != null && pickedTime != selectedTime) {
+      setState(() {
+        selectedTime = pickedTime;
+      });
+    }
+  }
+
+  String _formatTime(TimeOfDay time) {
+    final hour = time.hourOfPeriod;
+    final minute = time.minute.toString().padLeft(2, '0');
+    final period = time.period == DayPeriod.am ? 'AM' : 'PM';
+    return '$hour:$minute $period';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -169,11 +192,13 @@ class _EventScreenState extends State<EventScreen> {
                       height: 20,
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
                           height: 50,
                           width: 150,
                           decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
                             border: Border.all(color: Colors.grey),
                           ),
                           child: TextField(
@@ -187,6 +212,31 @@ class _EventScreenState extends State<EventScreen> {
                               FocusScope.of(context).requestFocus(FocusNode());
                               await _selectDate(context, dateController);
                             },
+                          ),
+                        ),
+                        SizedBox(
+                          width: 6,
+                        ),
+                        Container(
+                          height: 50,
+                          width: 150,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(color: Colors.grey),
+                          ),
+                          child: InkWell(
+                            onTap: () async {
+                              await _selectTime(context);
+                            },
+                            child: Center(
+                              child: Text(
+                                selectedTime != null
+                                    ? ' ${_formatTime(selectedTime!)}'
+                                    : 'Select Time',
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                            ),
                           ),
                         ),
                       ],
