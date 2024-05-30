@@ -1,3 +1,4 @@
+import 'package:app_neu_social/controller/community_provider.dart';
 import 'package:app_neu_social/controller/event_provider.dart';
 import 'package:app_neu_social/providers/user_provider.dart';
 import 'package:app_neu_social/view/spalsh_screen/splash_screen.dart';
@@ -19,6 +20,9 @@ class NeuSocial extends StatelessWidget {
             create: (context) => EventProvider()..loadEvents()),
         ChangeNotifierProvider(
           create: (context) => UserProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => Event2Provider(),
         )
       ],
       child: MaterialApp(

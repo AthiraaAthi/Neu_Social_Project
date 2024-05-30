@@ -1,4 +1,4 @@
-import 'package:app_neu_social/controller/event_provider.dart';
+import 'package:app_neu_social/controller/community_provider.dart';
 import 'package:app_neu_social/utils/color_constant/color_constant.dart';
 import 'package:app_neu_social/view/event_screen/event_details_screen/event_details_screen.dart';
 import 'package:app_neu_social/view/event_screen/event_screen.dart';

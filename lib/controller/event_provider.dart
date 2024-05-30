@@ -1,29 +1,53 @@
-import 'package:app_neu_social/database/database_service.dart';
+import 'package:app_neu_social/database/event2_dabase.dart';
 import 'package:flutter/material.dart';
 
-class Event {
-  final String communityName;
+class Event2 {
+  final String name;
   final String description;
+  final String time;
+  final String date;
+  final String selectedCommunity;
 
-  Event({required this.communityName, required this.description});
+  Event2({
+    required this.name,
+    required this.description,
+    required this.time,
+    required this.date,
+    required this.selectedCommunity,
+  });
 }
 
-class EventProvider extends ChangeNotifier {
-  List<Event> _events = [];
-  List<Event> get events => _events;
+class Event2Provider extends ChangeNotifier {
+  List<Event2> _events = [];
+  List<Event2> get events => _events;
 
-  Future<void> addEvent(String communityName, String description) async {
-    await DatabaseService().addEvent(communityName, description);
+  Future<void> addEvent2(
+    String name,
+    String description,
+    String time,
+    String date,
+    String selectedCommunity,
+  ) async {
+    await Event2Database().addEvent2(
+      name,
+      description,
+      time,
+      date,
+      selectedCommunity,
+    );
     _events = await getEventsFromDatabase();
     notifyListeners();
   }
 
-  Future<List<Event>> getEventsFromDatabase() async {
-    final eventMaps = await DatabaseService().getEvents();
+  Future<List<Event2>> getEventsFromDatabase() async {
+    final eventMaps = await Event2Database().getEvents();
     return List.generate(eventMaps.length, (i) {
-      return Event(
-        communityName: eventMaps[i]['communityName'],
+      return Event2(
+        name: eventMaps[i]['name'],
         description: eventMaps[i]['description'],
+        time: eventMaps[i]['time'],
+        date: eventMaps[i]['date'],
+        selectedCommunity: eventMaps[i]['selectedCommunity'],
       );
     });
   }
