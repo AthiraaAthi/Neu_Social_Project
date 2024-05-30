@@ -18,6 +18,22 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isLogged = prefs.getBool("isLogged") ?? false;
+
+    if (isLogged) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => NavigationScreen()),
+      );
+    }
+  }
 
   Future<bool> _validateLogin(String username, String password) async {
     final prefs = await SharedPreferences.getInstance();
@@ -35,8 +51,8 @@ class _LoginScreenState extends State<LoginScreen> {
         final user =
             User(username: emailController.text, password: passController.text);
         Provider.of<UserProvider>(context, listen: false).login(user);
-        // final prefs = await SharedPreferences.getInstance();
-        // await prefs.setBool("isLogged", true);
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool("isLogged", true);
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => NavigationScreen()),
         );

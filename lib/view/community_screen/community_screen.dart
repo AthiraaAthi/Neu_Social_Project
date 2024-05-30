@@ -161,11 +161,6 @@ class _CommunityScreenState extends State<CommunityScreen> {
                           titleController.text,
                           desController.text,
                         );
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EventScreen(),
-                            ));
                       },
                       child: Container(
                         height: 50,

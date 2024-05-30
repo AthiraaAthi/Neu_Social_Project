@@ -1,5 +1,6 @@
 import 'package:app_neu_social/controller/community_provider.dart';
 import 'package:app_neu_social/controller/event_provider.dart';
+import 'package:app_neu_social/providers/color_provider.dart';
 import 'package:app_neu_social/utils/color_constant/color_constant.dart';
 import 'package:app_neu_social/view/community_screen/community_screen.dart';
 
@@ -152,38 +153,47 @@ class _EventScreenState extends State<EventScreen> {
                               children:
                                   List.generate(communityNames.length, (index) {
                                 final communityName = communityNames[index];
-                                bool isSelected =
-                                    false; // Adding a variable to track selection state
+
                                 return GestureDetector(
                                   onTap: () {
                                     setState(() {
                                       selectedCommunity = communityName;
                                     });
+                                    Provider.of<ColorProvider>(context,
+                                            listen: false)
+                                        .toggleColor();
                                   },
-                                  child: Container(
-                                    height: 60,
-                                    width: 100,
-                                    decoration: BoxDecoration(
-                                      color: ColorConstant.DefaultBlue,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    child: Center(
-                                      child: Column(
-                                        children: [
-                                          Icon(
-                                            Icons.groups,
-                                            color: Colors.black,
+                                  child: Consumer<ColorProvider>(
+                                    builder: (context, colorProvider, child) {
+                                      return Container(
+                                        height: 60,
+                                        width: 100,
+                                        decoration: BoxDecoration(
+                                          color: colorProvider.isSelected
+                                              ? Colors.blue
+                                              : Colors.green,
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        child: Center(
+                                          child: Column(
+                                            children: [
+                                              Icon(
+                                                Icons.groups,
+                                                color: Colors.black,
+                                              ),
+                                              Text(
+                                                communityName,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          Text(
-                                            communityName,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 );
                               }),
