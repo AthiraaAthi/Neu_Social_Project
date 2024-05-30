@@ -6,6 +6,7 @@ import 'package:app_neu_social/view/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EventDetailsScreen extends StatefulWidget {
   const EventDetailsScreen({
@@ -71,6 +72,16 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
     _controller.clear();
   }
 
+  Future<void> _logout(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLogged', false);
+    Provider.of<UserProvider>(context, listen: false).logout();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
@@ -96,14 +107,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
           actions: [
             IconButton(
               icon: Icon(Icons.logout),
-              onPressed: () {
-                Provider.of<UserProvider>(context, listen: false).logout();
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginScreen(),
-                    ));
-              },
+              onPressed: () => _logout(context),
             ),
           ],
         ),

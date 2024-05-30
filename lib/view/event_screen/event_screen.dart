@@ -8,6 +8,7 @@ import 'package:app_neu_social/view/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EventScreen extends StatefulWidget {
   const EventScreen({
@@ -357,13 +358,16 @@ class _EventScreenState extends State<EventScreen> {
               )),
           IconButton(
               onPressed: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginScreen(),
-                  ),
-                  (Route<dynamic> route) => false,
-                );
+                SharedPreferences.getInstance().then((prefs) {
+                  prefs.setBool('isLogged', false);
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginScreen(),
+                    ),
+                    (Route<dynamic> route) => false,
+                  );
+                });
               },
               icon: Icon(
                 Icons.logout_rounded,

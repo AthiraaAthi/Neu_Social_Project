@@ -18,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -40,7 +41,6 @@ class _LoginScreenState extends State<LoginScreen> {
     final storedUsername = prefs.getString('username');
     final storedPassword = prefs.getString('password');
 
-    // await prefs.setBool("isLogged", true);
     return storedUsername == username && storedPassword == password;
   }
 
@@ -57,7 +57,6 @@ class _LoginScreenState extends State<LoginScreen> {
           MaterialPageRoute(builder: (context) => NavigationScreen()),
         );
       } else {
-        // Show an error message if login fails
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           duration: Duration(seconds: 2),
           backgroundColor: Colors.red,
