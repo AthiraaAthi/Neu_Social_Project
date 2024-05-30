@@ -132,78 +132,90 @@ class _EventScreenState extends State<EventScreen> {
               ))
         ],
       ),
-      body: ListView.builder(
-        itemCount: events2.length,
-        itemBuilder: (context, index) => Container(
-          height: 200,
-          decoration: BoxDecoration(
-            color: ColorConstant.white,
-            border: Border.all(color: ColorConstant.DefaultBlue),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Padding(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView.builder(
+          itemCount: events2.length,
+          itemBuilder: (context, index) => Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Row(
+            child: Container(
+              height: 170,
+              decoration: BoxDecoration(
+                color: ColorConstant.white,
+                border: Border.all(color: Colors.green),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    CircleAvatar(
-                      backgroundImage: AssetImage("assets/images/splash.jpeg"),
-                      radius: 25,
-                      backgroundColor: Colors.amber,
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Text(
-                      events2[index].name,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.green),
-                    )
-                  ],
-                ),
-                Text(
-                  events2[index].description,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "selected Community:",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundImage:
+                              AssetImage("assets/images/splash.jpeg"),
+                          radius: 25,
+                          backgroundColor: Colors.amber,
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          events2[index].name,
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: ColorConstant.DefaultBlue),
+                        )
+                      ],
                     ),
                     Text(
-                      " ${events2[index].selectedCommunity}",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w800,
-                          color: ColorConstant.DefaultBlue),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      events2[index].time,
+                      events2[index].description,
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
-                          color: Colors.red),
+                          color: Colors.green),
                     ),
-                    Text(
-                      events2[index].date,
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "selected Community:",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w500),
+                        ),
+                        Text(
+                          " ${events2[index].selectedCommunity}",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w800,
+                              color: ColorConstant.DefaultBlue),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          events2[index].time,
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.red),
+                        ),
+                        Text(
+                          events2[index].date,
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.deepPurple.shade800),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
