@@ -1,7 +1,10 @@
 import 'package:app_neu_social/controller/event_provider.dart';
 import 'package:app_neu_social/utils/color_constant/color_constant.dart';
+import 'package:app_neu_social/view/event_screen/event_details_screen/event_details_screen.dart';
 import 'package:app_neu_social/view/event_screen/event_screen.dart';
+import 'package:app_neu_social/view/event_screen/event_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class CommunityScreen extends StatefulWidget {
@@ -26,7 +29,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final eventProviderobj = Provider.of<EventProvider>(context);
+    final eventProvider = Provider.of<EventProvider>(context);
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
@@ -39,8 +42,13 @@ class _CommunityScreenState extends State<CommunityScreen> {
         ),
         title: Text(
           "Create Community",
-          style: TextStyle(
-              fontWeight: FontWeight.w800, color: ColorConstant.DefaultBlue),
+          style: GoogleFonts.dancingScript(
+            textStyle: TextStyle(
+              fontWeight: FontWeight.w900,
+              color: ColorConstant.DefaultBlue,
+              fontSize: 22,
+            ),
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -149,7 +157,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     InkWell(
                       onTap: () {
                         Navigator.pop(context);
-                        eventProviderobj.addEvent(
+                        eventProvider.addEvent(
                           titleController.text,
                           desController.text,
                         );
@@ -184,6 +192,32 @@ class _CommunityScreenState extends State<CommunityScreen> {
         child: Icon(
           Icons.add,
           color: ColorConstant.white,
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: ListView.builder(
+          itemCount: eventProvider.events.length,
+          itemBuilder: (context, index) {
+            final event = eventProvider.events[index];
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: EventWidget(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EventDetailsScreen(
+                          communityName: event.communityName,
+                          description: event.description,
+                        ),
+                      ));
+                },
+                communityName: event.communityName,
+                description: event.description,
+              ),
+            );
+          },
         ),
       ),
     );
