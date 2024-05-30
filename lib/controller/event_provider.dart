@@ -52,7 +52,7 @@ class Event2Provider extends ChangeNotifier {
     });
   }
 
-  Future<void> loadEvents() async {
+  Future<void> loadEvents2() async {
     _events = await getEventsFromDatabase();
     notifyListeners();
   }

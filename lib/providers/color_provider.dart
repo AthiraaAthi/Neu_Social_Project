@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
 class ColorProvider with ChangeNotifier {
-  bool _isSelected = false;
+  int _selectedIndex = -1;
 
-  bool get isSelected => _isSelected;
+  int get selectedIndex => _selectedIndex;
 
-  void toggleColor() {
-    _isSelected = !_isSelected;
+  void toggleColor(int index) {
+    if (_selectedIndex == index) {
+      _selectedIndex = -1;
+    } else {
+      _selectedIndex = index;
+    }
     notifyListeners();
   }
 }

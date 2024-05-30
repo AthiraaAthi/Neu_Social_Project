@@ -26,6 +26,8 @@ class _EventScreenState extends State<EventScreen> {
   @override
   void dispose() {
     dateController.dispose();
+    nameController.dispose();
+    desController.dispose();
 
     super.dispose();
   }
@@ -91,9 +93,9 @@ class _EventScreenState extends State<EventScreen> {
     });
   }
 
+  String selectedCommunity = '';
   @override
   Widget build(BuildContext context) {
-    String selectedCommunity = '';
     final event2Provider = Provider.of<EventProvider>(context);
     final communityNames =
         event2Provider.events.map((e) => e.communityName).toList();
@@ -161,18 +163,19 @@ class _EventScreenState extends State<EventScreen> {
                                     });
                                     Provider.of<ColorProvider>(context,
                                             listen: false)
-                                        .toggleColor();
+                                        .toggleColor(index);
                                   },
                                   child: Consumer<ColorProvider>(
                                     builder: (context, colorProvider, child) {
+                                      final isSelected =
+                                          colorProvider.selectedIndex == index;
                                       return Container(
                                         height: 60,
                                         width: 100,
                                         decoration: BoxDecoration(
-                                          color: colorProvider.isSelected
-                                              ? Colors.blue
-                                              : Color.fromARGB(
-                                                  255, 46, 227, 49),
+                                          color: isSelected
+                                              ? Color.fromARGB(255, 46, 227, 49)
+                                              : ColorConstant.DefaultBlue,
                                           borderRadius:
                                               BorderRadius.circular(8.0),
                                         ),

@@ -221,14 +221,15 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                         );
                       },
                       child: Container(
-                        height: 50,
-                        width: 150,
+                        height: 60,
+                        width: 200,
                         padding: EdgeInsets.all(8),
                         decoration: BoxDecoration(
                             color: Colors.white,
+                            borderRadius: BorderRadius.circular(5),
                             border: Border.all(
                                 color: ColorConstant.DefaultBlue, width: 2)),
-                        child: Text('Login'),
+                        child: Text('please Login to join the chat'),
                       ),
                     ),
                   ],

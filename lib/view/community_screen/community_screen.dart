@@ -156,11 +156,13 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     ),
                     InkWell(
                       onTap: () {
-                        Navigator.pop(context);
                         eventProvider.addEvent(
                           titleController.text,
                           desController.text,
                         );
+                        titleController.clear();
+                        desController.clear();
+                        Navigator.pop(context);
                       },
                       child: Container(
                         height: 50,

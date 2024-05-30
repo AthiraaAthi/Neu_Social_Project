@@ -21,7 +21,7 @@ class NeuSocial extends StatelessWidget {
             create: (context) => EventProvider()..loadEvents()),
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(
-          create: (context) => Event2Provider()..loadEvents(),
+          create: (context) => Event2Provider()..loadEvents2(),
         ),
         ChangeNotifierProvider(
           create: (context) => ColorProvider(),
