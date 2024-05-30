@@ -71,9 +71,22 @@ class _EventScreenState extends State<EventScreen> {
     return '$hour:$minute $period';
   }
 
-  void _addEvent(Event2 newEvent) {
+  @override
+  void initState() {
+    events2 = Provider.of<Event2Provider>(context, listen: false).events;
+    super.initState();
+  }
+
+  void _addEvent(Event2 newEvent) async {
+    await Provider.of<Event2Provider>(context, listen: false).addEvent2(
+      newEvent.name,
+      newEvent.description,
+      newEvent.time,
+      newEvent.date,
+      newEvent.selectedCommunity,
+    );
     setState(() {
-      events2.add(newEvent);
+      events2 = Provider.of<Event2Provider>(context, listen: false).events;
     });
   }
 
@@ -106,11 +119,223 @@ class _EventScreenState extends State<EventScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => CommunityScreen(),
-                    ));
+                showModalBottomSheet(
+                  isScrollControlled: true,
+                  context: context,
+                  builder: (context) => Padding(
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom),
+                    child: Container(
+                      height: 500,
+                      width: 500,
+                      decoration: BoxDecoration(
+                        color: ColorConstant.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "Select Community",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 22),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Wrap(
+                              spacing: 8.0,
+                              runSpacing: 8.0,
+                              children:
+                                  List.generate(communityNames.length, (index) {
+                                final communityName = communityNames[index];
+                                bool isSelected =
+                                    false; // Adding a variable to track selection state
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      selectedCommunity = communityName;
+                                    });
+                                  },
+                                  child: Container(
+                                    height: 60,
+                                    width: 100,
+                                    decoration: BoxDecoration(
+                                      color: ColorConstant.DefaultBlue,
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    child: Center(
+                                      child: Column(
+                                        children: [
+                                          Icon(
+                                            Icons.groups,
+                                            color: Colors.black,
+                                          ),
+                                          Text(
+                                            communityName,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                              height: 50,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: TextField(
+                                controller: nameController,
+                                decoration: InputDecoration(
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    hintText: "Title",
+                                    hintStyle: TextStyle(
+                                        fontSize: 15, color: Colors.grey),
+                                    border: InputBorder.none),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                              height: 90,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: TextField(
+                                controller: desController,
+                                decoration: InputDecoration(
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    hintText: "Description",
+                                    hintStyle: TextStyle(
+                                        fontSize: 15, color: Colors.grey),
+                                    border: InputBorder.none),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 50,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    border: Border.all(color: Colors.grey),
+                                  ),
+                                  child: TextField(
+                                    controller: dateController,
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: "Start Date",
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 10, horizontal: 10)),
+                                    onTap: () async {
+                                      FocusScope.of(context)
+                                          .requestFocus(FocusNode());
+                                      await _selectDate(
+                                          context, dateController);
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 6,
+                                ),
+                                Container(
+                                  height: 50,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    border: Border.all(color: Colors.grey),
+                                  ),
+                                  child: InkWell(
+                                    onTap: () async {
+                                      await _selectTime(context);
+                                    },
+                                    child: Center(
+                                      child: Text(
+                                        selectedTime != null
+                                            ? ' ${_formatTime(selectedTime!)}'
+                                            : 'Select Time',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                String Name = nameController.text;
+
+                                String description = desController.text;
+                                String date = dateController.text;
+                                String time = selectedTime != null
+                                    ? _formatTime(selectedTime!)
+                                    : '';
+
+                                Event2 event2 = Event2(
+                                    name: Name,
+                                    description: description,
+                                    time: time,
+                                    date: date,
+                                    selectedCommunity: selectedCommunity);
+                                _addEvent(event2);
+                                nameController.clear();
+                                desController.clear();
+                                dateController.clear();
+                                setState(() {
+                                  selectedTime = null;
+                                  selectedCommunity = '';
+                                });
+
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                height: 50,
+                                width: 300,
+                                decoration: BoxDecoration(
+                                    color: ColorConstant.DefaultBlue,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Center(
+                                  child: Text(
+                                    "Create",
+                                    style: TextStyle(
+                                        color: ColorConstant.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
               },
               icon: Icon(
                 Icons.add,
@@ -139,7 +364,7 @@ class _EventScreenState extends State<EventScreen> {
           itemBuilder: (context, index) => Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              height: 170,
+              //height: 170,
               decoration: BoxDecoration(
                 color: ColorConstant.white,
                 border: Border.all(color: Colors.green),
@@ -163,25 +388,32 @@ class _EventScreenState extends State<EventScreen> {
                         ),
                         Text(
                           events2[index].name,
-                          style: TextStyle(
-                              fontSize: 20,
+                          style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
                               fontWeight: FontWeight.w600,
-                              color: ColorConstant.DefaultBlue),
-                        )
+                              color: ColorConstant.DefaultBlue,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
-                    Text(
-                      events2[index].description,
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.green),
+                    Column(
+                      children: [
+                        Text(
+                          events2[index].description,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "selected Community:",
+                          " Community:",
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w500),
                         ),
@@ -209,7 +441,7 @@ class _EventScreenState extends State<EventScreen> {
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w400,
-                              color: Colors.deepPurple.shade800),
+                              color: Colors.green),
                         ),
                       ],
                     ),
@@ -218,223 +450,6 @@ class _EventScreenState extends State<EventScreen> {
               ),
             ),
           ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: ColorConstant.DefaultBlue,
-        onPressed: () {
-          showModalBottomSheet(
-            isScrollControlled: true,
-            context: context,
-            builder: (context) => Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: Container(
-                height: 500,
-                width: 500,
-                decoration: BoxDecoration(
-                  color: ColorConstant.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Select Community",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 22),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Wrap(
-                        spacing: 8.0,
-                        runSpacing: 8.0,
-                        children: List.generate(communityNames.length, (index) {
-                          final communityName = communityNames[index];
-                          bool isSelected =
-                              false; // Adding a variable to track selection state
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                selectedCommunity = communityName;
-                              });
-                            },
-                            child: Container(
-                              height: 60,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                color: ColorConstant.DefaultBlue,
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              child: Center(
-                                child: Column(
-                                  children: [
-                                    // ignore: dead_code
-                                    Icon(
-                                      Icons.groups,
-                                    ),
-                                    Text(
-                                      communityName,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        }),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: 50,
-                        width: 300,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(5)),
-                        child: TextField(
-                          controller: nameController,
-                          decoration: InputDecoration(
-                              fillColor: Colors.white,
-                              filled: true,
-                              hintText: "Title",
-                              hintStyle:
-                                  TextStyle(fontSize: 15, color: Colors.grey),
-                              border: InputBorder.none),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: 90,
-                        width: 300,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(5)),
-                        child: TextField(
-                          controller: desController,
-                          decoration: InputDecoration(
-                              fillColor: Colors.white,
-                              filled: true,
-                              hintText: "Description",
-                              hintStyle:
-                                  TextStyle(fontSize: 15, color: Colors.grey),
-                              border: InputBorder.none),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 50,
-                            width: 150,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: Colors.grey),
-                            ),
-                            child: TextField(
-                              controller: dateController,
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Start Date",
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 10)),
-                              onTap: () async {
-                                FocusScope.of(context)
-                                    .requestFocus(FocusNode());
-                                await _selectDate(context, dateController);
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            width: 6,
-                          ),
-                          Container(
-                            height: 50,
-                            width: 150,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              border: Border.all(color: Colors.grey),
-                            ),
-                            child: InkWell(
-                              onTap: () async {
-                                await _selectTime(context);
-                              },
-                              child: Center(
-                                child: Text(
-                                  selectedTime != null
-                                      ? ' ${_formatTime(selectedTime!)}'
-                                      : 'Select Time',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          String Name = nameController.text;
-
-                          String description = desController.text;
-                          String date = dateController.text;
-                          String time = selectedTime != null
-                              ? _formatTime(selectedTime!)
-                              : '';
-
-                          Event2 event2 = Event2(
-                              name: Name,
-                              description: description,
-                              time: time,
-                              date: date,
-                              selectedCommunity: selectedCommunity);
-                          _addEvent(event2);
-
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          height: 50,
-                          width: 300,
-                          decoration: BoxDecoration(
-                              color: ColorConstant.DefaultBlue,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Center(
-                            child: Text(
-                              "Create",
-                              style: TextStyle(
-                                  color: ColorConstant.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-        child: Icon(
-          Icons.add,
-          color: ColorConstant.white,
         ),
       ),
     );

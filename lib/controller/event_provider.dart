@@ -21,15 +21,22 @@ class Event2Provider extends ChangeNotifier {
   List<Event2> _events = [];
   List<Event2> get events => _events;
 
-  Future<void> addEvent(Event2 newEvent) async {
+  Future<void> addEvent2(
+    String name,
+    String description,
+    String time,
+    String date,
+    String selectedCommunity,
+  ) async {
     await Event2Database().addEvent2(
-      newEvent.name,
-      newEvent.description,
-      newEvent.time,
-      newEvent.date,
-      newEvent.selectedCommunity,
+      name,
+      description,
+      time,
+      date,
+      selectedCommunity,
     );
-    await loadEvents(); // Reload events from the database
+    _events = await getEventsFromDatabase();
+    notifyListeners();
   }
 
   Future<List<Event2>> getEventsFromDatabase() async {
